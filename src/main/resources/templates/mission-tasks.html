@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBL - Quest Tracker - Team Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="bg-slate-900">
+
+    <main class="flex flex-col items-center justify-center h-screen">
+        <h1 class="text-2xl font-bold text-slate-100 mb-6">Mission Details</h1>
+
+
+        <div class="flex gap-2 p-2">
+            <label>
+                <input class="peer sr-only" value="smile" name="status" id="smile" type="radio"
+                    th:data-mission-id="${mission.id}" th:checked="${mission.status == 'smile'}" />
+                <div
+                    class="flex size-16 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-slate-500 bg-slate-700 p-1 transition-transform duration-150 hover:border-purple-400 active:scale-95 peer-checked:border-purple-500 peer-checked:shadow-md peer-checked:shadow-purple-400">
+                    <i data-lucide="smile" class="size-6 text-emerald-500"></i>
+                </div>
+            </label>
+
+            <label>
+                <input class="peer sr-only" value="meh" name="status" id="meh" type="radio"
+                    th:data-mission-id="${mission.id}" th:checked="${mission.status == 'meh'}" />
+                <div
+                    class="flex size-16 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-slate-500 bg-slate-700 p-1 transition-transform duration-150 hover:border-purple-400 active:scale-95 peer-checked:border-purple-500 peer-checked:shadow-md peer-checked:shadow-purple-400">
+                    <i data-lucide="meh" class="size-6 text-amber-400"></i>
+                </div>
+            </label>
+
+            <label>
+                <input class="peer sr-only" value="frown" name="status" id="frown" type="radio"
+                    th:data-mission-id="${mission.id}" th:checked="${mission.status == 'frown'}" />
+                <div
+                    class="flex size-16 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-slate-500 bg-slate-700 p-1 transition-transform duration-150 hover:border-purple-400 active:scale-95 peer-checked:border-purple-500 peer-checked:shadow-md peer-checked:shadow-purple-400">
+                    <i data-lucide="frown" class="size-6 text-orange-400"></i>
+                </div>
+            </label>
+
+            <label>
+                <input class="peer sr-only" value="flame" name="status" id="flame" type="radio"
+                    th:data-mission-id="${mission.id}" th:checked="${mission.status == 'flame'}" />
+                <div
+                    class="flex size-16 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-slate-500 bg-slate-700 p-1 transition-transform duration-150 hover:border-purple-400 active:scale-95 peer-checked:border-purple-500 peer-checked:shadow-md peer-checked:shadow-purple-400">
+                    <i data-lucide="flame" class="size-6 text-red-400"></i>
+                </div>
+            </label>
+        </div>
+
+
+        <form th:action="@{../../task}" method="post"
+            class="bg-slate-800 rounded p-6 min-w-[500px] gap-6 flex flex-col">
+            <input type="hidden" name="missionId" th:value="${mission.id}">
+            <div class="flex gap-2" th:each="task: ${tasks}">
+                <input type="checkbox" th:id="${'task-' + task.id}" th:checked="${task.done}" class="accent-purple-500"
+                    onchange="handleCheck(this)">
+                <label th:for="${'task-' + task.id}" class="text-slate-200"
+                    th:classappend="${task.done} ? ' line-through opacity-40' : ''" th:text="${task.text}"></label>
+
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="text" id="text" name="text" placeholder="new task"
+                    class="input text-slate-300 bg-slate-900 px-3 w-full py-1 my-2 rounded border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 focus:ring-offset-[#09090b] transition-all duration-150 ease-in-out">
+                <button
+                    class="size-10 flex justify-center items-center bg-purple-500 rounded hover:bg-purple-700 cursor-pointer">
+                    <i data-lucide="plus"></i>
+                </button>
+            </div>
+
+            <a href="/team"
+                class="flex  gap-2 px-4 py-2 bg-slate-500 self-start rounded hover:bg-slate-700 cursor-pointer">
+                <i data-lucide="chevron-left"></i>
+                back
+            </a>
+        </form>
+        
+        <div class="bg-slate-800 rounded p-6 min-w-[500px] gap-2 flex flex-col mt-4">
+            <h1 for="owner" class="text-slate-200 font-semibold text-lg">Edit Mission</h1>
+            <label for="owner" class="text-slate-200 font-semibold">Owner</label>
+            <select id="owner" name="owner" onchange="ownerChange()"
+                class="input text-slate-300 bg-slate-900 px-3 py-1 my-2 rounded border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 focus:ring-offset-[#09090b] transition-all duration-150 ease-in-out">
+                <option th:each="student: ${students}" th:value="${student}" th:text="${student.displayName}" th:selected="${student == mission.owner}"></option>
+            </select>
+            <form th:action="${'../../mission/' + mission.id +'/delete'}" method="post" class="flex flex-col gap-2">
+                <button class="flex gap-2 px-4 py-2 bg-red-800 self-start rounded hover:bg-red-500 cursor-pointer">
+                    <i data-lucide="trash-2" class="text-red-100"></i>
+                    <span class="text-red-100">Delete Mission</span>
+                </button>
+            </form>
+        </div>
+
+
+    </main>
+    <script>
+        lucide.createIcons()
+
+        async function handleCheck(target) {
+            const id = target.id.replace("task-", "");
+            const label = document.querySelector(`label[for="${target.id}"]`);
+            if (target.checked) {
+                label.classList.add("line-through")
+                label.classList.add("opacity-40")
+            } else {
+                label.classList.remove("line-through")
+                label.classList.remove("opacity-40")
+            }
+
+            const response = await fetch("http://localhost:8080/task/" + id, { method: 'PATCH' })
+            if (!response.ok) console.error("fail to update task status")
+
+        }
+
+        async function changeStatus() {
+            const status = document.querySelector('input[name="status"]:checked');
+            var missionId = status.getAttribute("data-mission-id");
+
+
+            const response = await fetch("http://localhost:8080/mission/" + missionId, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: status.value })
+            });
+        }
+
+        document.querySelectorAll('input[name="status"]').forEach(input => {
+            input.addEventListener('change', changeStatus);
+        });
+
+        async function ownerChange() {
+            const owner = document.querySelector('#owner');
+            const missionId = document.querySelector('input[name="missionId"]').value;
+
+            const response = await fetch("http://localhost:8080/mission/" + missionId + "/owner", {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ owner: owner.value })
+            });
+
+            if (!response.ok) console.error("fail to update mission owner");
+        }
+    </script>
+</body>
+
+</html>

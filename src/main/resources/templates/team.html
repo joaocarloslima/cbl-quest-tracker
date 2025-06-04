@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBL - Quest Tracker - Team Board</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .status {
+            position: relative;
+            margin: 2rem;
+        }
+
+        .status svg {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        .status circle {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #00000077;
+            stroke-width: 10px;
+            stroke-linecap: round;
+            transform: translate(5px, 5px);
+        }
+
+        .status circle:nth-child(2) {
+            stroke-dasharray: 440;
+            stroke-dashoffset: calc(440 - (440 * 50) / 100);
+            stroke: #cbd5e1;
+        }
+
+        .status .number {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        .status .number span {
+            font-size: 3rem;
+            filter: opacity(.5);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900">
+
+    <main class="flex flex-col p-4">
+        <nav class="flex justify-between">
+            <div th:class="${'bg-'+ team.color + '-500 p-2 rounded max-w-[300px] min-w-[220px] min-h-[80px] relative'}">
+                <span class="text-3xl font-bold" th:text="${team.name}"></span>
+                <img th:src="${'/images/' + team.imageUrl}" alt="logo" class="absolute top-[-20px] right-[-20px] w-16 h-16">
+                
+            </div>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="cursor-pointer">
+                    <i data-lucide="log-out" class="text-slate-300"></i>
+                </button>
+            </form>
+        </nav>
+
+        <div class="bg-slate-800 p-6 rounded my-4">
+            <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-medium text-white">Time Spend</span>
+            <span class="text-slate-400" th:text="${timeSpendPercent + '%'}"></span>
+          </div>
+
+          <div class="h-1.5 overflow-hidden rounded-full bg-slate-900">
+            <div
+              th:class="${'h-full w-[' + timeSpendPercent + '%] rounded-full bg-gradient-to-r from-violet-500 to-purple-500'}"
+            >
+              <div
+                class="h-full w-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent"
+              ></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs mt-2">
+            <span class="font-medium text-white">Tasks Completed</span>
+            <span class="text-slate-400" th:text="${totalTasksPercent + '%'}"></span>
+          </div>
+          <div class="h-1.5 overflow-hidden rounded-full bg-slate-900">
+            <div
+              th:class="${'h-full w-[' + totalTasksPercent + '%] rounded-full bg-gradient-to-r from-red-500 to-pink-500'}"
+            >
+              <div
+                class="h-full w-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent"
+              ></div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <a th:href="@{/mission/form}"
+            class="flex gap-2 px-6 py-2 bg-purple-500 rounded self-end cursor-pointer hover:bg-purple-700 text-purple-100">
+            <i data-lucide="plus"></i>
+            add misson
+        </a>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2 w-full">
+            <a th:each="mission : ${missions}" th:href="${'/mission/' + mission.id +'/tasks'}">
+                <div
+                    th:class="${'flex flex-col items-center justify-between bg-'+ mission.color + '-500 p-4 rounded min-h-[100px] cursor-pointer shadow-md p-6 transition-transform duration-300 ease-in-out hover:scale-105'}">
+                    
+                    <div class="flex items-center justify-between w-full mb-4">
+                        <span th:class="${'text-'+ mission.color + '-950 text-lg font-bold self-start '}"
+                            th:text="${mission.description}"></span>
+    
+                        <i th:data-lucide="${mission.status}"></i>
+                    </div>
+
+                    <div class="status">
+                        <svg>
+                            <circle cx="70" cy="70" r="70" />
+                            <circle cx="70" cy="70" r="70"
+                                th:style="${'stroke-dashoffset: calc(440 - (440 * ' + mission.percent + ') / 100)'}" />
+                        </svg>
+                        <div class="number">
+                            <span th:text="${mission.percent + '%'}"></span>
+                        </div>
+                    </div>
+
+                    <span
+                        th:class="${'bg-' + mission.color + '-800 text-' + mission.color + '-100 text-sm rounded-full px-3 self-end'} "
+                        th:text="${mission.owner.displayName}"></span>
+                </div>
+
+            </a>
+        </div>
+
+
+
+    </main>
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>

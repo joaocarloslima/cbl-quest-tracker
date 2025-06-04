@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBL - Quest Tracker - Team Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-slate-900">
+
+    <main class="flex flex-col items-center justify-center h-screen">
+        <h1 class="text-2xl font-bold text-slate-100 mb-6">Mission Data</h1>
+        <form th:action="@{../mission}" th:object="${mission}" method="post" class="bg-slate-800 rounded p-6 min-w-[500px] gap-6 flex flex-col">
+            <div class="flex flex-col">
+                <label for="description" class="text-slate-200 font-semibold">Description</label>
+                <input type="text" id="description" name="description" class="input text-slate-300 bg-slate-900 px-3 py-1 my-2 rounded border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 focus:ring-offset-[#09090b] transition-all duration-150 ease-in-out">
+            </div>
+
+            <div class="flex flex-col">
+                <label for="color" class="text-slate-200 font-semibold">CBL Phase</label>
+                <select  id="color" name="color" class="input text-slate-300 bg-slate-900 px-3 py-1 my-2 rounded border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 focus:ring-offset-[#09090b] transition-all duration-150 ease-in-out">
+                    <option value="green">Engage</option>
+                    <option value="yellow">Investigate</option>
+                    <option value="blue">Act</option>
+                    <option value="slate">Document, Reflect, Share</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="owner" class="text-slate-200 font-semibold">Owner</label>
+                <select id="owner" name="owner" class="input text-slate-300 bg-slate-900 px-3 py-1 my-2 rounded border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:ring-offset-2 focus:ring-offset-[#09090b] transition-all duration-150 ease-in-out">
+                    <option th:each="student: ${students}" th:value="${student}" th:text="${student.displayName}"></option>
+                </select>
+            </div>
+            <button class="px-8 py-2 bg-purple-500 rounded hover:bg-purple-700 cursor-pointer">Send</button>
+        </form>
+
+    </main>
+
+</body>
+
+</html>
