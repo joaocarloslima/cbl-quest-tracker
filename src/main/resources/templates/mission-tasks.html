@@ -112,7 +112,7 @@
                 label.classList.remove("opacity-40")
             }
 
-            const response = await fetch("http://147.93.33.84:8080/task/" + id, { method: 'PATCH' })
+            const response = await fetch("http://147.93.33.84:8081/task/" + id, { method: 'PATCH' })
             if (!response.ok) console.error("fail to update task status")
 
         }
@@ -122,7 +122,7 @@
             var missionId = status.getAttribute("data-mission-id");
 
 
-            const response = await fetch("http://147.93.33.84:8080/mission/" + missionId, {
+            const response = await fetch("http://147.93.33.84:8081/mission/" + missionId, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -139,7 +139,7 @@
             const owner = document.querySelector('#owner');
             const missionId = document.querySelector('input[name="missionId"]').value;
 
-            const response = await fetch("http://147.93.33.84:8080/mission/" + missionId + "/owner", {
+            const response = await fetch("http://147.93.33.84:8081/mission/" + missionId + "/owner", {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

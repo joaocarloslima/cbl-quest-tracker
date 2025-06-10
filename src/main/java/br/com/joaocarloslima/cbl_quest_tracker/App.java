@@ -21,7 +21,7 @@ public class App {
 		SpringApplication.run(App.class, args);
 	}
 
-	@PostConstruct
+	//@PostConstruct
 	public void init(){
 		teamRepository.saveAll(List.of(
 			Team.builder().name("Team01").color("teal").status("happy").accessCode("team01").imageUrl("taskid.png").build(),
