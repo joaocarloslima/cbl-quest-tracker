@@ -26,10 +26,13 @@ public class App {
 		teamRepository.saveAll(List.of(
 			Team.builder().name("Team01").color("teal").status("happy").accessCode("team01").imageUrl("taskid.png").build(),
 			Team.builder().name("Team02").color("pink").status("happy").accessCode("team02").imageUrl("pisco.png").build(),
-			Team.builder().name("Team03").color("amber").status("happy").accessCode("team03").imageUrl("pisco.png").build()
+			Team.builder().name("Team03").color("amber").status("happy").accessCode("team03").imageUrl("pisco.png").build(),
+			Team.builder().name("Team04").color("blue").status("happy").accessCode("team04").imageUrl("pisco.png").build(),
+			Team.builder().name("Team05").color("green").status("happy").accessCode("team05").imageUrl("pisco.png").build(),
+			Team.builder().name("Team06").color("purple").status("happy").accessCode("team06").imageUrl("pisco.png").build(),
+			Team.builder().name("Team07").color("orange").status("happy").accessCode("team07").imageUrl("pisco.png").build()
 		));
 
-		
-	}	
+	}
 
 }

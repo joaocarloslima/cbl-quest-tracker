@@ -33,8 +33,14 @@ public class SecurityConfig {
     @Bean
     UserDetailsService userDetailsService() {
         var users = List.of(
-                User.withUsername("pisco").password("{noop}").roles("USER").build(),
-                User.withUsername("taskid").password("{noop}").roles("USER").build());
+                User.withUsername("team01").password("{noop}").roles("USER").build(),
+                User.withUsername("team02").password("{noop}").roles("USER").build(),
+                User.withUsername("team03").password("{noop}").roles("USER").build(),
+                User.withUsername("team04").password("{noop}").roles("USER").build(),
+                User.withUsername("team05").password("{noop}").roles("USER").build(),
+                User.withUsername("team06").password("{noop}").roles("USER").build(),
+                User.withUsername("team07").password("{noop}").roles("USER").build()
+        );
         return new InMemoryUserDetailsManager(users);
     }
 
