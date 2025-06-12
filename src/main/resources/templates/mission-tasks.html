@@ -55,7 +55,7 @@
 
 
         <form th:action="@{../../task}" method="post"
-            class="bg-slate-800 rounded p-6 min-w-[500px] gap-6 flex flex-col">
+            class="bg-slate-800 rounded p-6 min-w-[90%] lg:min-w-[500px] gap-6 flex flex-col">
             <input type="hidden" name="missionId" th:value="${mission.id}">
             <div class="flex gap-2" th:each="task: ${tasks}">
                 <input type="checkbox" th:id="${'task-' + task.id}" th:checked="${task.done}" class="accent-purple-500"
@@ -81,7 +81,7 @@
             </a>
         </form>
         
-        <div class="bg-slate-800 rounded p-6 min-w-[500px] gap-2 flex flex-col mt-4">
+        <div class="bg-slate-800 rounded p-6 min-w-[90%] lg:min-w-[500px] gap-2 flex flex-col mt-4">
             <h1 for="owner" class="text-slate-200 font-semibold text-lg">Edit Mission</h1>
             <label for="owner" class="text-slate-200 font-semibold">Owner</label>
             <select id="owner" name="owner" onchange="ownerChange()"
