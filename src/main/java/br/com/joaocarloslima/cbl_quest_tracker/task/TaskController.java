@@ -34,8 +34,9 @@ public class TaskController {
 
     @GetMapping("/{id}/delete")
     public String deleteTask(@PathVariable Long id) {
+        var missionId = service.findById(id).getMission().getId();
         service.delete(id);
-        return "redirect:/mission/" + id + "/tasks";
+        return "redirect:/mission/" + missionId + "/tasks";
     }
 
 }

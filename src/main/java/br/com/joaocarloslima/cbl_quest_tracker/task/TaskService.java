@@ -41,6 +41,12 @@ public class TaskService {
         repository.deleteById(id);
     }
 
+    public Task findById(Long id) {
+        return repository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+    }
+
     
     
 }
