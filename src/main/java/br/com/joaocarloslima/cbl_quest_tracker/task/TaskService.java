@@ -37,6 +37,10 @@ public class TaskService {
         return repository.findByMission(mission);
     }
 
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
     
     
 }
